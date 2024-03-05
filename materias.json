@@ -1,0 +1,31 @@
+{
+    "1":{
+        "INF101":{
+            "title":"Introdução à Computação",
+            "short":["IAC"]
+        },
+        "INF102":{
+            "title":"Lógica e Linguagem de Programação ",
+            "short":["LELP"]
+        },
+        "GEC101":{
+            "title":"Leitura e Produção Textual",
+            "short":["LEPT"]
+        },
+        "EDC101":{
+            "title":"Informática na Educação",
+            "short":[""]
+        },
+        "MAT101":{
+            "title":"Introdução à Matemática",
+            "short":["IAM"]
+        },
+        "GEC102":{
+            "title":"Ciência, Tecnologia e Sociedade",
+            "short":["CTS"]
+        }
+    },
+    "2":{
+        
+    }
+}
