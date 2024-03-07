@@ -36,7 +36,7 @@ $.getJSON("materias.json", (subjects) => {
         tmpSemID = `s${sem}`;
         divSubjectList.append(`
             <buttton data-bs-target="#${tmpSemID}" class="btn" type="button" data-bs-toggle="collapse">
-                <h5>Semestre ${sem}</h5>
+                <h5>${!isNaN(sem)?"Semestre":""} ${sem}</h5>
             </button>`);
 
         divSubjectList.append(`<div class="collapse" id="${tmpSemID}"></div>`);
