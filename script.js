@@ -1,3 +1,4 @@
+let locked = false;
 const dias = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"];
 const horarios = {
     1: ["13:15", "14:05"],
@@ -28,25 +29,56 @@ for (key in horarios) {
                 </tr>`);
 }
 dias.forEach(dia => {
-    $("#class-schedule tbody tr").append(`<td draggable="true">Vazio</td>`).addClass("text-center hover");
+    $("#class-schedule tbody tr").append(`<td> - </td>`).addClass("text-center");
 });
 
 $.getJSON("materias.json", (subjects) => {
     $.each(subjects, (sem, subjs) => {
         tmpSemID = `s${sem}`;
-        divSubjectList.append(`
-            <buttton data-bs-target="#${tmpSemID}" class="btn" type="button" data-bs-toggle="collapse">
+        $(` <buttton data-bs-target="#${tmpSemID}" class="btn" type="button" data-bs-toggle="collapse">
                 <h5>${!isNaN(sem)?"Semestre":""} ${sem}</h5>
-            </button>`);
+             </button>`).appendTo(divSubjectList)
 
-        divSubjectList.append(`<div class="collapse" id="${tmpSemID}"></div>`);
+        $(`<div class="collapse" id="${tmpSemID}"></div>`).appendTo(divSubjectList);
         let tmpSem = $(`#${tmpSemID}`);
         $.each(subjs, (cod, subject) => {
-            tmpSem.append(`
-                <li draggable="true" class="list-group-item list-group-item-action"> 
+            $(`
+                <li id=${cod} draggable="true" class="list-group-item list-group-item-action"> 
                 ${subject.title}
                 </li>`
-            );
+            ).appendTo(tmpSem);
         })
     })
 })
+
+let dragged=null;
+
+$("#class-schedule").delegate("td", "drop", function(ev){
+    ev.preventDefault();
+    console.log("dropzone:", $(this))
+    if(!locked){
+        if(dragged.is("li")){
+            $(this).replaceWith(draggedHandler(dragged));
+        }else{
+            $(this).replaceWith(dragged.clone());
+        }    
+    }
+    $(this).toggleClass("table-warning", false)
+})
+
+$("#class-schedule").delegate("td", "dragover", function(ev){
+    ev.preventDefault();
+    console.log($(this));
+}).delegate("td","dragenter", function(){
+    $(this).toggleClass("table-warning", true)
+}).delegate("td","dragleave", function(){
+    $(this).toggleClass("table-warning", false)
+})
+    
+$("#subject-list, #class-schedule").delegate("[draggable='true']","dragstart", function(){
+        dragged = $(this);
+})
+
+function draggedHandler(draggedEl){
+    return($(`<td draggable="true">${draggedEl.text().trim()}</td>`).addClass((draggedEl.attr("id").replace(/\d+/g, ''))));
+}
