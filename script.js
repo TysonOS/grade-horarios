@@ -56,10 +56,16 @@ function timeTableLoad(){
             $("#class-schedule tbody")
             .append(`<tr>
             <th class="table-success" scope="row">
-            <time>${horarios[key][0]}</time> - 
-                                <time>${horarios[key][1]}</time>
-                            </th>
-                            </tr>`);
+                <time>${horarios[key][0]}</time> - 
+                <time>${horarios[key][1]}</time>
+            </th>
+                <tr>
+                    <th class="table-success" scope="row">
+                        <time>${horarios[key][0]}</time>- 
+                        <time>${horarios[key][1]}</time>
+                    </th>
+                </tr>`
+            );
                         }
         dias.forEach(dia => {
             $("#class-schedule tbody tr").append(`<td> - </td>`).addClass("text-center");
@@ -72,11 +78,11 @@ function subjectListLoad(){
     $.getJSON("materias.json", (subjects) => {
         $.each(subjects, (sem, subjs) => {
             tmpSemID = `s${sem}`;
-            $(` <buttton data-bs-target="#${tmpSemID}" class="btn" type="button" data-bs-toggle="collapse">
-            <h5>${!isNaN(sem)?"Semestre":""} ${sem}</h5>
-                 </button>`).appendTo(divSubjectList)
-    
-            $(`<div class="collapse" id="${tmpSemID}"></div>`).appendTo(divSubjectList);
+            $(`<div></div>`)
+            .append(` <buttton data-bs-target="#${tmpSemID}" class="btn" type="button" data-bs-toggle="collapse">
+                ${!isNaN(sem)?"Semestre":""} ${sem}
+                 </button>`)
+            .append(`<div class="collapse list-group" id="${tmpSemID}"></div>`).appendTo(divSubjectList)
             let tmpSem = $(`#${tmpSemID}`);
             $.each(subjs, (cod, subject) => {
                 $(`
@@ -103,6 +109,7 @@ function loadData(){
 }
 
 function purgeData(){
-    let timeTable = $(localStorage.removeItem("class_timetable"));
-    window.location.load();
+    $(localStorage.removeItem("class_timetable"));
+    window.location.reload();
 }
+

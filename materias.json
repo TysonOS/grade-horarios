@@ -134,15 +134,15 @@
             "title":"Web Design",
             "short":[""]
         },
-        "INF 601":{
+        "INF601":{
             "title":"Grafos",
             "short":[""]
         },
-        "INF 603":{
+        "INF603":{
             "title":"Interface Humano Computador - IHC",
             "short":[""]
         },
-        "INF 604":{
+        "INF604":{
             "title":"Redes de Computadores",
             "short":[""]
         },
@@ -194,11 +194,11 @@
             "title":"Trabalho de Conclusão de Curso",
             "short":[""]
         },
-        "INF 805":{
+        "INF805":{
             "title":"Tópicos Avançados em Programação",
             "short":[""]
         },
-        "INF 802":{
+        "INF802":{
             "title":"Segurança da Informação",
             "short":[""]
         }
@@ -212,7 +212,7 @@
             "title":"Relações Étnico-Racial e Diversidade",
             "short":[""]
         },
-        "OPT 801":{
+        "OPT801":{
             "title":"Optativo II",
             "short":[""]
         }
