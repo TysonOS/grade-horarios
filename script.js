@@ -1,8 +1,12 @@
 let locked = false;
+let autosave = true;
+const emptyTd = $(`<td class="empty"> - </td>`).addClass("text-center");
+
 $(document).ready(function(){
     timeTableLoad();
     subjectListLoad();
     dragNDropHandler();
+    removeSubjectHandler();
 })
 
 const dias = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"];
@@ -33,6 +37,7 @@ function dragNDropHandler(){
     })
     $("#class-schedule").delegate("td", "drop", function(ev){
         ev.preventDefault();
+        $(this).toggleClass("table-warning", false);
         if(!locked){
             if(dragged.is("li")){
                 $(this).replaceWith(draggedHandler(dragged));
@@ -40,8 +45,9 @@ function dragNDropHandler(){
                 $(this).replaceWith(dragged.clone());
             }    
         }
-        save();
-        $(this).toggleClass("table-warning", false)
+        if(autosave){
+            save();
+        }
     })
 }
 
@@ -54,21 +60,17 @@ function timeTableLoad(){
         });
         for (key in horarios) {
             $("#class-schedule tbody")
-            .append(`<tr>
-            <th class="table-success" scope="row">
-                <time>${horarios[key][0]}</time> - 
-                <time>${horarios[key][1]}</time>
-            </th>
-                <tr>
+            .append(
+                `<tr>
                     <th class="table-success" scope="row">
-                        <time>${horarios[key][0]}</time>- 
+                        <time>${horarios[key][0]}</time> - 
                         <time>${horarios[key][1]}</time>
                     </th>
                 </tr>`
-            );
+            ).addClass("text-center");
                         }
         dias.forEach(dia => {
-            $("#class-schedule tbody tr").append(`<td> - </td>`).addClass("text-center");
+            $("#class-schedule tbody tr").append(emptyTd.clone());
         });
     }
 }
@@ -109,7 +111,17 @@ function loadData(){
 }
 
 function purgeData(){
-    $(localStorage.removeItem("class_timetable"));
+    localStorage.removeItem("class_timetable");
     window.location.reload();
 }
 
+function removeSubjectHandler(){
+    $("#class-schedule").on("dblclick","td[draggable=true]",function(ev){
+        if(!locked){
+            $(this).replaceWith(emptyTd.clone());
+            if(autosave){
+                save()
+            }
+        }
+    });
+}
