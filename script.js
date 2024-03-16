@@ -1,13 +1,40 @@
-let locked = false;
-let autosave = true;
-const emptyTd = $(`<td class="empty"> - </td>`).addClass("text-center");
+const emptyTd = $(`<td class="empty text-center"> - </td>`)
+let config = {
+    locked : false,
+    autosave : true,
+}
 
 $(document).ready(function(){
+    config.autosave = $("#autoSaveSwitch").prop("checked");
+    config.locked = $("#lockEditSwitch").prop("checked");
+    configHandler();
     timeTableLoad();
     subjectListLoad();
     dragNDropHandler();
     removeSubjectHandler();
+    $("[draggable=true]").css("cursor", "grab") 
+    $("#purgeDataBtn").on("click", function(){
+        if(localStorage.class_timetable){
+            $("#alertZone").html(`
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <div>Deseja realmente limpar todos os dados?</div>
+                    <button type="button" class="btn" onclick="purgeData()">Sim</button>
+                    <button type="button" class="btn" data-bs-dismiss="alert">Não</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>`
+            );
+        }
+    })
 })
+
+function configHandler(){
+    $("#autoSaveSwitch").on("change", function(){
+        config.autosave = $(this).prop("checked");
+    });
+    $("#lockEditSwitch").on("change", function(){
+        config.locked = $(this).prop("checked");
+    });
+}
 
 const dias = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"];
 const horarios = {
@@ -38,14 +65,14 @@ function dragNDropHandler(){
     $("#class-schedule").delegate("td", "drop", function(ev){
         ev.preventDefault();
         $(this).toggleClass("table-warning", false);
-        if(!locked){
+        if(!config.locked){
             if(dragged.is("li")){
                 $(this).replaceWith(draggedHandler(dragged));
             }else{
                 $(this).replaceWith(dragged.clone());
             }    
         }
-        if(autosave){
+        if(config.autosave){
             save();
         }
     })
@@ -103,7 +130,7 @@ function draggedHandler(draggedEl){
 }
 
 function save(){
-    localStorage.setItem("class_timetable", $("#class-schedule")[0].innerHTML.trim());
+    localStorage.setItem("class_timetable", $("#class-schedule").html().trim());
 }
 function loadData(){
     let timeTable = $(localStorage.getItem("class_timetable"));
@@ -117,9 +144,9 @@ function purgeData(){
 
 function removeSubjectHandler(){
     $("#class-schedule").on("dblclick","td[draggable=true]",function(ev){
-        if(!locked){
+        if(!config.locked){
             $(this).replaceWith(emptyTd.clone());
-            if(autosave){
+            if(config.autosave){
                 save()
             }
         }
