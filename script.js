@@ -12,7 +12,7 @@ $(document).ready(function(){
     subjectListLoad();
     dragNDropHandler();
     removeSubjectHandler();
-    $("[draggable=true]").css("cursor", "grab") 
+    $("[draggable=true]").css("cursor", "grab"); 
     $("#purgeDataBtn").on("click", function(){
         if(localStorage.class_timetable){
             $("#alertZone").html(`
@@ -25,11 +25,25 @@ $(document).ready(function(){
             );
         }
     })
+    
+    const toastTrigger = document.getElementById('liveToastBtn')
+    const usageTipsToast = document.getElementById('usageTipsToast')
+    if (toastTrigger) {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(usageTipsToast)
+        toastTrigger.addEventListener('click', () => {
+            toastBootstrap.show()
+        })
+    }
 })
 
 function configHandler(){
     $("#autoSaveSwitch").on("change", function(){
         config.autosave = $(this).prop("checked");
+        if(config.autosave){
+            $("#saveBtn").addClass("visually-hidden");
+        }else{
+            $("#saveBtn").removeClass("visually-hidden");
+        }
     });
     $("#lockEditSwitch").on("change", function(){
         config.locked = $(this).prop("checked");
