@@ -1,13 +1,11 @@
-const emptyTd = $(`<td class="empty text-center"> - </td>`)
+const emptyTd = $(`<td class="empty text-center"> - </td>`);
 let config = {
     locked : false,
     autosave : true,
 }
 
 $(document).ready(function(){
-    config.autosave = $("#autoSaveSwitch").prop("checked");
-    config.locked = $("#lockEditSwitch").prop("checked");
-    configHandler();
+    configLoad();
     timeTableLoad();
     subjectListLoad();
     dragNDropHandler();
@@ -21,33 +19,57 @@ $(document).ready(function(){
                     <button type="button" class="btn" onclick="purgeData()">Sim</button>
                     <button type="button" class="btn" data-bs-dismiss="alert">Não</button>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>`
-            );
-        }
+                    </div>`
+                );
+            }
     })
+    $("#autoSaveSwitch, #lockEditSwitch").on("change", function(){
+        configHandler();
+    });
     
     const toastTrigger = document.getElementById('liveToastBtn')
     const usageTipsToast = document.getElementById('usageTipsToast')
     if (toastTrigger) {
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(usageTipsToast)
         toastTrigger.addEventListener('click', () => {
-            toastBootstrap.show()
+            toastBootstrap.show();
         })
     }
 })
 
+function saveConfig(){
+    if(!localStorage.getItem("savedConfig")){
+        localStorage.setItem("savedConfig", JSON.stringify(config));
+    } else if(JSON.parse(localStorage.getItem("savedConfig")) != JSON.stringify(config)){
+        localStorage.setItem("savedConfig", JSON.stringify(config));
+    }
+}
+
 function configHandler(){
-    $("#autoSaveSwitch").on("change", function(){
-        config.autosave = $(this).prop("checked");
+    config.autosave = $("#autoSaveSwitch").prop("checked");
+    config.locked = $("#lockEditSwitch").prop("checked");
+    if(config.autosave){
+        $("#saveBtn").addClass("visually-hidden");
+    }else{
+        $("#saveBtn").removeClass("visually-hidden");
+    }
+    saveConfig();
+}
+
+function configLoad(){
+    if(!localStorage.getItem("savedConfig")){
+        saveConfig();
+    }else{
+        config = JSON.parse(localStorage.getItem("savedConfig"));
+        $("#autoSaveSwitch").prop("checked", config.autosave);
+        $("#lockEditSwitch").prop("checked", config.locked);
         if(config.autosave){
             $("#saveBtn").addClass("visually-hidden");
         }else{
             $("#saveBtn").removeClass("visually-hidden");
         }
-    });
-    $("#lockEditSwitch").on("change", function(){
-        config.locked = $(this).prop("checked");
-    });
+    }
+
 }
 
 const dias = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"];
@@ -161,7 +183,7 @@ function removeSubjectHandler(){
         if(!config.locked){
             $(this).replaceWith(emptyTd.clone());
             if(config.autosave){
-                save()
+                save();
             }
         }
     });
