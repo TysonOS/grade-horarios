@@ -40,7 +40,7 @@ $(document).ready(function(){
 function saveConfig(){
     if(!localStorage.getItem("savedConfig")){
         localStorage.setItem("savedConfig", JSON.stringify(config));
-    } else if(JSON.parse(localStorage.getItem("savedConfig")) != JSON.stringify(config)){
+    } else if(localStorage.getItem("savedConfig") != JSON.stringify(config)){
         localStorage.setItem("savedConfig", JSON.stringify(config));
     }
 }
