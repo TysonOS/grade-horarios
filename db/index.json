@@ -1,0 +1,19 @@
+{
+    "cursos":[
+        {
+            "nome":"LICENCIATURA EM MATEMÁTICA",
+            "grau":"licenciatura",
+            "path":["./disciplinas_mat_licenciatura.json"]
+        },
+        {
+            "nome":"CIÊNCIA DA COMPUTAÇÃO",
+            "grau":"bacharelado",
+            "path":["./disciplinas_csc_bacharelado.json"]
+        },
+        {
+            "nome":"LICENCIATURA EM COMPUTAÇÃO",
+            "grau":"licenciatura",
+            "path":["./disciplinas_csc_licenciatura.json"]
+        }
+    ]
+}
