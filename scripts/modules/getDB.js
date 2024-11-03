@@ -1,8 +1,6 @@
 async function getDB(path){
     let dbIndex = await fetch(path).then(res => res.json());
     let cursos = await dbIndex.cursos
-    let promises = []
-    console.log(dbIndex)
     for(let curso of cursos){
         curso.disciplinas = await populateDisciplinas(curso);
     }

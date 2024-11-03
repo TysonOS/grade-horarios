@@ -1,6 +1,7 @@
 import preferences from "./modules/config.js"
 import db from "./modules/getDB.js"
 import subjectList from "./modules/subjectList.js";
+import search from "./modules/search.js";
 
 const emptyTd = $(`<td class="empty text-center"> - </td>`);
 let config = {
@@ -53,7 +54,18 @@ $(document).ready(function(){
         if($(this).val() != -1) $("#search").removeClass("visually-hidden");
         
     })
+
+    $("#search").keyup($.debounce(300, searchRender))
 })
+
+function searchRender(ev){
+    if(ev.target.value.length){
+        subjectList.render(search.search(ev.target.value));
+    }
+    else{
+        subjectList.render()
+    }
+}
 
 function saveConfig(){
     if(!localStorage.getItem("savedConfig")){
