@@ -1,3 +1,7 @@
+import preferences from "./modules/config.js"
+import db from "./modules/getDB.js"
+import subjectList from "./modules/subjectList.js";
+
 const emptyTd = $(`<td class="empty text-center"> - </td>`);
 let config = {
     locked : false,
@@ -7,7 +11,7 @@ let config = {
 $(document).ready(function(){
     configLoad();
     timeTableLoad();
-    subjectListLoad();
+    subjectList.render()
     dragNDropHandler();
     removeSubjectHandler();
     $("[draggable=true]").css("cursor", "grab"); 
@@ -35,6 +39,20 @@ $(document).ready(function(){
             toastBootstrap.show();
         })
     }
+    const courseSelect = $("#course-selector");
+    subjectList.render()
+    //timetable.draw()
+    db.cursos.forEach((curso, i) => {
+       //console.log(curso, i)
+        courseSelect.append(`<option value="${i}">${curso.nome}</option>`);
+    });
+    courseSelect.val(String(preferences.get("selectedCourse")));
+    courseSelect.change(function(){
+        preferences.set("selectedCourse", Number($(this).val()));
+        subjectList.render();
+        if($(this).val() != -1) $("#search").removeClass("visually-hidden");
+        
+    })
 })
 
 function saveConfig(){
@@ -121,7 +139,7 @@ function timeTableLoad(){
         dias.forEach(dia => {
             $("#class-schedule thead tr").append(`<th scope="col">${dia}</th>`).addClass("text-center table-success");
         });
-        for (key in horarios) {
+        for (let key in horarios) {
             $("#class-schedule tbody")
             .append(
                 `<tr>
@@ -136,29 +154,6 @@ function timeTableLoad(){
             $("#class-schedule tbody tr").append(emptyTd.clone());
         });
     }
-}
-
-function subjectListLoad(){
-    let divSubjectList = $("#subject-list");
-    $.getJSON("materias.json", (subjects) => {
-        $.each(subjects, (sem, subjs) => {
-            tmpSemID = `s${sem}`;
-            $(`<div></div>`)
-            .append(` <buttton data-bs-target="#${tmpSemID}" class="btn" type="button" data-bs-toggle="collapse">
-                ${!isNaN(sem)?"Semestre":""} ${sem}
-                 </button>`)
-            .append(`<div class="collapse list-group" id="${tmpSemID}"></div>`).appendTo(divSubjectList)
-            let tmpSem = $(`#${tmpSemID}`);
-            $.each(subjs, (cod, subject) => {
-                $(`
-                <li id=${cod} draggable="true" class="list-group-item list-group-item-action"> 
-                ${subject.title}
-                </li>`
-                ).appendTo(tmpSem);
-            })
-        })
-    })
-    
 }
 
 function draggedHandler(draggedEl){

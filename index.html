@@ -15,6 +15,9 @@
                     <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         <i class="bi bi-gear"></i>
                     </button>
+                    <select id="course-selector" class="form-select form-select">
+                        <option value="-1" disabled>Selecione o curso</option>
+                    </select>
                     <button class="btn btn-outline-secondary" id="saveBtn" onclick="save()"><i class="bi bi-floppy-fill"></i></button>
                     <ul class="dropdown-menu p-2">
                         <li>
@@ -50,13 +53,16 @@
                     </tbody>
                 </table>
             </section>
-            <div class="btn-group-vertical col-1">
-                <button data-bs-target="#test" class="btn" data-bs-toggle="collapse">
+            <div class=" btn-group-vertical col-1">
+                <button data-bs-target="#subject-list-section" class="btn position-absolute top-0 end-0" data-bs-toggle="collapse">
                     <i class="bi bi-pencil"></i>
                 </button>
             </div>
-            <section class="subjects text-center col-md-3 collapse collapse-horizontal" id="test">
-                    <div id="subject-list"></div>
+            <section class="vh-100 subjects text-center col-md-3 collapse collapse-horizontal" id="subject-list-section">
+                <div class="mb-3">
+                    <input id="search" class="form-control" type="text" placeholder="Buscar disciplina">
+                </div>    
+                <div id="subject-list" class="h-50 p-1 overflow-y-scroll list-group"></div>
             </section>
         </div>
     </div>
@@ -81,6 +87,6 @@
     </div>
     <script src="scripts/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="scripts/jquery/jquery-3.7.1.min.js"></script>
-    <script src="scripts/main.js"></script>
+    <script type="module" src="scripts/main.js"></script>
 </body>
 </html>
