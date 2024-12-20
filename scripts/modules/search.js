@@ -2,10 +2,8 @@ import preferences from "./config.js"
 import db from "./getDB.js"
 
 export default (()=>{
-    function searchInSelectedCourse(searchTerm){
-    
+    function searchInSelectedCourse(searchTerm){    
         let selectedCourse = db.cursos[(preferences.get("selectedCourse"))];
-        console.log(searchTerm)
         let res = searchInLista(selectedCourse.disciplinas, searchTerm);
         return res;
     }

@@ -11,13 +11,13 @@
         <nav class="navbar navbar-expand-lg bg-secondary-subtle">
             <div class="container-fluid">
                 <h1 class="navbar-brand">Grade de Horários</h1>
-                <div class="btn-group dropstart" role="group">
-                    <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                        <i class="bi bi-gear"></i>
-                    </button>
+                <div class="btn-group" role="group">
                     <select id="course-selector" class="form-select form-select">
                         <option value="-1" disabled>Selecione o curso</option>
                     </select>
+                    <button class="btn btn-secondary" id="optionsBtn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <i class="bi bi-gear"></i>
+                    </button>
                     <button class="btn btn-outline-secondary" id="saveBtn" onclick="save()"><i class="bi bi-floppy-fill"></i></button>
                     <ul class="dropdown-menu p-2">
                         <li>
@@ -40,47 +40,50 @@
         </div>
     </nav>
     <div id="alertZone"></div>
-    <div class="container-xxl mt-2">
-        <div class="row">
-            <section class="class-timetable col">
-                <table id="class-schedule" class="table table-hover table-striped-columns table-sm">
-                    <thead>
-                        <tr>
-                            <th>Horários</th> 
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+    <div class="container-fluid mt-2">
+        <div class="row flex-lg-nowrap">
+            <section class="class-timetable col row">
+                <div class="col-12 table-responsive">
+                    <table id="class-schedule" class="table table-hover table-striped-columns table-sm">
+                        <thead>
+                            <tr>
+                                <th>Horários</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </section>
-            <div class=" btn-group-vertical col-1">
-                <button data-bs-target="#subject-list-section" class="btn position-absolute top-0 end-0" data-bs-toggle="collapse">
-                    <i class="bi bi-pencil"></i>
-                </button>
-            </div>
-            <section class="vh-100 subjects text-center col-md-3 collapse collapse-horizontal" id="subject-list-section">
-                <div class="mb-3 input-group">
-                    <i class="input-group-text bi bi-search"></i>
-                    <input id="search" class="form-control" type="text" placeholder="Buscar disciplina">
-                </div>    
-                <div id="subject-list" class="h-50 p-1 overflow-y-scroll list-group"></div>
-            </section>
+            <section class="col-lg-3">
+                    <div class="my-1 py-1">
+                        <button type="button" aria-expanded="true" data-bs-target=".subject-list-section" class="btn btn-outline-secondary me-2" data-bs-toggle="collapse"><i class="bi bi-pencil"></i></button>
+                        <strong class="show subject-list-section collapse collapse-horizontal">Disciplinas</strong>
+                    </div>
+                    <div class="show subject-list-section vh-100 subjects text-center collapse collapse-horizontal" id="subject-list-section">
+                        <div class="mb-3 input-group">
+                            <i class="input-group-text bi bi-search"></i>
+                            <input id="search" class="form-control" type="text" placeholder="Buscar disciplina">
+                        </div>    
+                        <div id="subject-list" class="h-50 p-1 overflow-y-scroll list-group"></div>
+                    </div>
+                </section>
         </div>
     </div>
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="usageTipsToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header me-auto">
                 <i class="bi bi-lightbulb-fill"></i>      
-                <strong class="me-auto"> Dicas</strong>
+                <strong class="me-auto ms-2"> Como usar</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <p>Clique e arraste as matérias a partir do menu ou da grade, solte onde quer prencher</p>
+                        <p>Arraste as matérias a partir do menu ou da grade, solte aonde quer prencher</p>
                     </li>
                     <li class="list-group-item">
-                        <p>Clique duplo para remover da grade</p>
+                        <p>Toque duplo para remover da grade</p>
                     </li>
                 </ul>
             </div>
@@ -90,5 +93,6 @@
     <script src="scripts/jquery/jquery-3.7.1.min.js"></script>
     <script src="scripts/jquery/jquery.ba-throttle-debounce.min.js"></script>
     <script type="module" src="scripts/main.js"></script>
+    <script type="module" src="scripts/drag-drop-touch.esm.min.js"></script>
 </body>
 </html>

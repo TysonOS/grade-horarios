@@ -10,23 +10,26 @@ let config = {
 }
 
 $(document).ready(function(){
+    $("body").css("user-select", "none") 
     configLoad();
     timeTableLoad();
     subjectList.render()
     dragNDropHandler();
     removeSubjectHandler();
-    $("[draggable=true]").css("cursor", "grab"); 
+    $("[draggable=true]").css("cursor","grab")
     $("#purgeDataBtn").on("click", function(){
         if(localStorage.class_timetable){
             $("#alertZone").html(`
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <div>Deseja realmente limpar todos os dados?</div>
-                    <button type="button" class="btn" onclick="purgeData()">Sim</button>
+                    <button id="purgeConfirm" type="button" class="btn">Sim</button>
                     <button type="button" class="btn" data-bs-dismiss="alert">Não</button>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>`
-                );
-            }
+                </div>`
+            )
+            $("#optionsBtn").click();
+            $("#purgeConfirm").one("click", function(){ purgeData()});
+        }
     })
     $("#autoSaveSwitch, #lockEditSwitch").on("change", function(){
         configHandler();
@@ -56,6 +59,7 @@ $(document).ready(function(){
     })
 
     $("#search").keyup($.debounce(300, searchRender))
+    window.DragDropTouch.enable(document, document, {dragScrollPercentage:90, isPressHoldMode:true})
 })
 
 function searchRender(ev){
@@ -125,8 +129,9 @@ function dragNDropHandler(){
     }).delegate("td","dragleave", function(){
         $(this).toggleClass("table-warning", false)
     })
-    $("#subject-list, #class-schedule").delegate("[draggable='true']","dragstart", function(){
+    $("#subject-list, #class-schedule").delegate("[draggable='true']","dragstart", function(ev){
         dragged = $(this);
+        console.log(dragged, ev)
     })
     $("#class-schedule").delegate("td", "drop", function(ev){
         ev.preventDefault();
