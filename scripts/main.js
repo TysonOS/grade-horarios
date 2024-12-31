@@ -4,14 +4,10 @@ import subjectList from "./modules/subjectList.js";
 import search from "./modules/search.js";
 
 const emptyTd = $(`<td class="empty text-center"> - </td>`);
-let config = {
-    locked : false,
-    autosave : true,
-}
 
 $(document).ready(function(){
     $("body").css("user-select", "none") 
-    configLoad();
+    preferenceRender();
     timeTableLoad();
     subjectList.render()
     dragNDropHandler();
@@ -71,39 +67,25 @@ function searchRender(ev){
     }
 }
 
-function saveConfig(){
-    if(!localStorage.getItem("savedConfig")){
-        localStorage.setItem("savedConfig", JSON.stringify(config));
-    } else if(localStorage.getItem("savedConfig") != JSON.stringify(config)){
-        localStorage.setItem("savedConfig", JSON.stringify(config));
-    }
-}
-
 function configHandler(){
-    config.autosave = $("#autoSaveSwitch").prop("checked");
-    config.locked = $("#lockEditSwitch").prop("checked");
-    if(config.autosave){
+    preferences.set("autosave", $("#autoSaveSwitch").prop("checked"));
+    preferences.set("locked", $("#lockEditSwitch").prop("checked"));
+    if(preferences.get("autosave")){
         $("#saveBtn").addClass("visually-hidden");
     }else{
         $("#saveBtn").removeClass("visually-hidden");
     }
-    saveConfig();
+    preferences.save();
 }
 
-function configLoad(){
-    if(!localStorage.getItem("savedConfig")){
-        saveConfig();
-    }else{
-        config = JSON.parse(localStorage.getItem("savedConfig"));
-        $("#autoSaveSwitch").prop("checked", config.autosave);
-        $("#lockEditSwitch").prop("checked", config.locked);
-        if(config.autosave){
+function preferenceRender(){
+        $("#autoSaveSwitch").prop("checked", preferences.get("autosave"));
+        $("#lockEditSwitch").prop("checked", preferences.get("locked"));
+        if(preferences.get("autosave")){
             $("#saveBtn").addClass("visually-hidden");
         }else{
             $("#saveBtn").removeClass("visually-hidden");
         }
-    }
-
 }
 
 const dias = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"];
@@ -136,14 +118,14 @@ function dragNDropHandler(){
     $("#class-schedule").delegate("td", "drop", function(ev){
         ev.preventDefault();
         $(this).toggleClass("table-warning", false);
-        if(!config.locked){
+        if(!(preferences.get("locked"))){
             if(dragged.is("li")){
                 $(this).replaceWith(draggedHandler(dragged));
             }else{
                 $(this).replaceWith(dragged.clone());
             }    
         }
-        if(config.autosave){
+        if(preferences.get("autosave")){
             save();
         }
     })
@@ -192,9 +174,9 @@ function purgeData(){
 
 function removeSubjectHandler(){
     $("#class-schedule").on("dblclick","td[draggable=true]",function(ev){
-        if(!config.locked){
+        if(preferences.get("locked")){
             $(this).replaceWith(emptyTd.clone());
-            if(config.autosave){
+            if(preferences.get("autosave")){
                 save();
             }
         }
