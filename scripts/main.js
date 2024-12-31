@@ -174,7 +174,7 @@ function purgeData(){
 
 function removeSubjectHandler(){
     $("#class-schedule").on("dblclick","td[draggable=true]",function(ev){
-        if(preferences.get("locked")){
+        if(!(preferences.get("locked"))){
             $(this).replaceWith(emptyTd.clone());
             if(preferences.get("autosave")){
                 save();
