@@ -16,7 +16,7 @@
     "INF304":{"disciplina":"Análise e Projeto de Algoritmos", "semestre":3, "req":["INF201"]},
     "EDC301":{"disciplina":"Filosofia da Educação", "semestre":3, "req":[]},
     "MAT301":{"disciplina":"Cálculo Diferencial e Integral II", "semestre":3, "req":["MAT201"]},
-    "MAT302":{"disciplina":"Algebra Linear", "semestre":3, "req":["MAT202"]},
+    "MAT302":{"disciplina":"Álgebra Linear", "semestre":3, "req":["MAT202"]},
     "INF401":{"disciplina":"Arquitetura de Computadores", "semestre":4, "req":["INF202"]},
     "INF402":{"disciplina":"Linguagens Formais e Autômatos", "semestre":4, "req":[]},
     "INF403":{"disciplina":"Laboratório de Programação I", "semestre":4, "req":["INF301"]},
