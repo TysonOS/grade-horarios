@@ -19,10 +19,11 @@ export default (()=>{
     }
     
     function listaDisciplinasSel(lista){
-        for(let materia in lista){
+        for(let cod in lista){
+            let disciplina = lista[cod];
             $("#subject-list")
-                .append(`<li id="${materia}" class="list-group-item list-group-item-action" draggable="true">            
-                            ${lista[materia].disciplina}
+                .append(`<li id="${cod}" class="list-group-item list-group-item-action" draggable="true">            
+                            ${disciplina.disciplina}
                         </li>`);
         }
     }

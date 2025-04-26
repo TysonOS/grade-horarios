@@ -142,7 +142,7 @@ function timeTableLoad(){
             $("#class-schedule tbody")
             .append(
                 `<tr>
-                    <th class="table-success" scope="row">
+                    <th class="table-success text-truncate" scope="row">
                         <time>${horarios[key][0]}</time> - 
                         <time>${horarios[key][1]}</time>
                     </th>
